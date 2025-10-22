@@ -1,0 +1,303 @@
+<!-- Bungee Pro audio speed changer and pitch shifter
+Copyright (c) 2024-2025 Parabola Research Limited -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="description"
+    content="Bungee Pro lets you play audio and music files in your browser with full quality and real-time control over speed, tempo, and pitch." />
+  <title>Bungee - Change audio speed and pitch</title>
+  <link rel=" preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="slider.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <meta name="viewport" content="width=device-width">
+  <style>
+    fieldset {
+      display: flex;
+      flex-direction: row;
+      padding: 0.5rem;
+      margin: 1rem 0rem;
+      max-width: 100%;
+      border: 1px solid #888;
+    }
+
+    legend {
+      font-weight: bold;
+    }
+
+    #fieldsetInput>div {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #input-modes {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .dnd {
+      font-size: 2em;
+      color: light-dark(#c0c0c0, #404040);
+      flex-shrink: 1;
+      min-width: 1.5em
+    }
+
+    @keyframes pulse {
+      0% {
+        color: light-dark(#c0c0c0, #404040);
+      }
+
+      50% {
+        color: var(--accent-color);
+      }
+
+      100% {
+        color: light-dark(#c0c0c0, #404040);
+      }
+    }
+
+    .loading .dnd {
+      animation: pulse 2s infinite;
+    }
+
+    .loading {
+      pointer-events: none;
+    }
+
+    #fieldsetPosition,
+    #fieldsetSpeed,
+    #fieldsetPitch {
+      align-items: center;
+    }
+
+    #snapSpeed,
+    #snapPitch {
+      margin: 0.5rem 0.5rem;
+      width: 1rem;
+    }
+
+    datalist {
+      display: none;
+    }
+
+    .spanIndication {
+      font-variant-numeric: tabular-nums;
+      min-width: 3em;
+      text-align: right;
+      margin-right: 0.5rem;
+    }
+
+    input[type=range] {
+      flex: 1 1 auto;
+    }
+
+    #filename {
+      font-style: italic;
+    }
+
+    #selectSource {
+      font-weight: normal;
+      font-size: unset;
+      font-family: unset;
+      color: unset;
+    }
+
+    label.play-pause>input {
+      visibility: hidden;
+    }
+
+    .status {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #controls {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 60em) {
+
+      #controls {
+        flex-direction: row;
+      }
+
+      #controls>fieldset {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 0;
+      }
+
+      #controls>fieldset>label {
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container" style="display:flex;align-items: baseline; justify-content: space-between;">
+      <div style="display:flex; align-items: baseline; flex-wrap: wrap;">
+        <a href="." style="display:flex; align-items: baseline; margin-right: 1.5em;" class="bungee">
+          <svg style="display: inline-block; height: 2.2em; position: relative; top: 0.2em;"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+            <path fill="#d05000"
+              d="M34.209.206L11.791 2.793C10.806 2.907 10 3.811 10 4.803v18.782C9.09 23.214 8.075 23 7 23c-3.865 0-7 2.685-7 6 0 3.314 3.135 6 7 6s7-2.686 7-6V10.539l18-2.077v13.124c-.91-.372-1.925-.586-3-.586-3.865 0-7 2.685-7 6 0 3.314 3.135 6 7 6s7-2.686 7-6V1.803c0-.992-.806-1.71-1.791-1.597z" />
+          </svg>
+          <h1 class="bungee-title">
+            Bungee
+          </h1>
+        </a>
+      </div>
+      <div class="logos">
+        <div class="navigation"><a href="change-audio-speed-pitch.html">demo</a></div>
+        <div class="navigation"><a href="compare-audio-stretch-tempo-pitch-change.html">comparison</a></div>
+        <a style="flex-shrink: 0" href="https://github.com/bungee-audio-stretch/bungee">
+          <svg aria-hidden="true" height="1.5em" version="1.1" viewBox="0 0 16 16">
+            <path fill="#eee" fill-rule="evenodd"
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z">
+            </path>
+          </svg>
+        </a>
+        <a style="flex-shrink: 0" href="https://www.linkedin.com/showcase/100486145">
+          <svg aria-hidden="true" class="" height="1.5em" version="1.1" viewBox="0 0 72 72">
+            <g xmlns="http://www.w3.org/2000/svg" fill="none" fill-rule="evenodd">
+              <path
+                d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"
+                fill="#eee" />
+            </g>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section>
+      <div class="container">
+        <h1>Change audio speed and pitch</h1>
+      </div>
+    </section>
+    <section>
+      <div id="player" class="container">
+        <p>Choose an audio file in the box below. Then adust the position, speed and pitch
+          sliders to hear it played at a different speed or pitch.</p>
+
+
+        <fieldset id="fieldsetInput">
+          <legend>input audio file</legend>
+          <div>
+            <label for="input-local" class="material-icons-sharp dnd">&#xeaf3;
+            </label>
+            <div id="input-modes">
+              <label for="inputFile">
+                <input type="radio" name="input" id="input-local" value="local" />
+                <input type="file" accept="audio/*" id="inputFile" style="display: none;" />
+                select an audio file on your device
+                <span id="filename"> </span>
+
+              </label>
+              <label for="input-demo" id="input-demo-label">
+                <input type="radio" name="input" id="input-demo" value="demo" />
+                use demo sample <select id="selectSource" style="display: inline-block;">
+                </select>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="fieldsetPosition">
+          <legend>position</legend>
+          <div class="spanIndication bungee-position" id="spanPosition"></div>
+          <div id="position" style="display:flex; flex-direction: column; flex-grow: 1;">
+            <input type="range" id="sliderPosition" min="0" max="0" value="0" step="0.0001" disabled
+              class="bungee-position">
+          </div>
+          <label id="playLabel" for="checkPlay" class="play-pause accented" title="play/stop">
+            <input type="checkbox" id="checkPlay" disabled />
+          </label>
+        </fieldset>
+
+        <fieldset id="fieldsetSpeed">
+          <legend>speed</legend>
+          <span class="spanIndication" id="spanSpeed"></span>
+          <input type="range" id="sliderSpeed" min="-2" max="2" value="0.75" step="0.00001" list="listSpeed"
+            class="bungee-speed">
+          <input type="checkbox" id="snapSpeed" title="snap">
+        </fieldset>
+
+        <fieldset id="fieldsetPitch">
+          <legend>pitch</legend>
+          <span class="spanIndication" id="spanPitch"></span>
+          <input type="range" id="sliderPitch" min="-24" max="24" value="0" list="listPitch" title="semitones"
+            class="bungee-pitch">
+          <input type="checkbox" id="snapPitch" title="snap">
+        </fieldset>
+
+        <fieldset id="fieldsetStatus" class="status">
+          <legend>status</legend>
+          <div
+            style="flex-grow: 1; background: linear-gradient(to right, #0c0, #cc0, #c00, #c0c, #88c); position:relative;">
+            <div style="color:transparent">%</div>
+            <div id="cpu" style="
+              background-color: light-dark(#ddd, #333) ; 
+              position: absolute; 
+              width: 100%; 
+              height: 100%; 
+              right: 0; 
+              top: 0; 
+              overflow-x: visible; 
+              text-align: right; 
+              white-space: nowrap;
+              direction: rtl;">
+            </div>
+          </div>
+          <div class="sample-rate" id="sample-rate-in"></div>
+          <div class="sample-rate" id="sample-rate-out"></div>
+        </fieldset>
+
+        <p><span id='bungee-version'></span></p>
+
+        <script src="bungee-web-demo.js"></script>
+
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <p>This page demonstrates the agility, efficiency and audio quality of the Bungee Pro audio stretcher. All
+          processing takes place in the browser with no data being sent from your device.</p>
+        <p>Contact us at the link below if you're interested in building with Bungee Pro. </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container" style="text-wrap: nowrap;">
+      <div>
+        <div style="display: flex;align-items: baseline; gap: 1em;">
+          <a class="smallprint" href="mailto:bungee@parabolaresearch.com">Contact</a>
+          <a class="smallprint" href="notices.html">Legal notices</a>
+          <a class="smallprint" href="https://parabolaresearch.com/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div
+        style="margin-top: 1em; display: flex;align-items: baseline; gap: 1em;justify-content: space-between; flex-wrap: wrap;">
+        <div class="smallprint">Crafted in Hampshire, UK</div>
+        <div class="smallprint">&copy; 2025 Parabola Research Limited </div>
+      </div>
+    </div>
+  </footer>
+</html>
