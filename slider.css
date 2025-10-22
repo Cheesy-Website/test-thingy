@@ -1,0 +1,90 @@
+/*generated with Input range slider CSS style generator (version 20211225)
+https://toughengineer.github.io/demo/slider-styler*/
+input[type=range] {
+    -webkit-appearance: none;
+    background-color: unset;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 0.6em;
+    border-radius: 0.3em;
+    background: light-dark(#c0c0c0, #404040);
+    box-shadow: none;
+    border: none;
+}
+
+input[type=range]::-moz-range-track {
+    height: 0.6em;
+    border-radius: 0.3em;
+    background: light-dark(#c0c0c0, #404040);
+    box-shadow: none;
+    border: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 0.6em;
+    background: var(--accent-color);
+    border: none;
+    box-shadow: none;
+    margin-top: calc(max(0.6em * 0.5, 0px) - 1.2em * 0.5);
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 0.6em;
+    background: var(--accent-color);
+    border: none;
+    box-shadow: none;
+}
+
+/* input[type=range]:hover::-webkit-slider-runnable-track {
+    filter: contrast(125%);
+}
+
+input[type=range]:hover::-moz-range-track {
+    filter: contrast(125%);
+} */
+
+/* input[type=range]:hover::-webkit-slider-thumb {} */
+
+input[type=range]:hover::-moz-range-thumb {
+    filter: contrast(125%);
+}
+
+/* input[type=range]:active::-webkit-slider-runnable-track {
+    filter: contrast(125%);
+}
+
+input[type=range]:active::-moz-range-track {
+    filter: contrast(125%);
+} */
+
+/* input[type=range]:active::-webkit-slider-thumb {} */
+
+input[type=range]:active::-moz-range-thumb {
+    filter: contrast(125%);
+}
+
+#sliderSpeed.snap::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, light-dark(#c0c0c0, #404040) 0px 4px, light-dark(#e0e0e0, #202020) 4px 100%) calc(0.6em - 4px / 2) / calc((100% - 1.2em)/4) repeat-x;
+}
+
+#sliderSpeed.snap::-moz-range-track {
+    background: linear-gradient(to right, light-dark(#c0c0c0, #404040) 0px 4px, light-dark(#e0e0e0, #202020) 4px 100%) calc(0.6em - 4px / 2) / calc((100% - 1.2em)/4) repeat-x;
+}
+
+#sliderPitch.snap::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, light-dark(#c0c0c0, #404040) 0px 4px, light-dark(#e0e0e0, #202020) 4px 100%) calc(0.6em - 4px / 2) / calc((100% - 1.2em)/48) repeat-x;
+}
+
+#sliderPitch.snap::-moz-range-track {
+    background: linear-gradient(to right, light-dark(#c0c0c0, #404040) 0px 4px, light-dark(#e0e0e0, #202020) 4px 100%) calc(0.6em - 4px / 2) / calc((100% - 1.2em)/48) repeat-x;
+}
